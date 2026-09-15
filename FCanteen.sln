@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.Data", "FCanteen.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.KitchenServer", "FCanteen.KitchenServer\FCanteen.KitchenServer.csproj", "{25EBD20E-CF7D-402F-88A0-53EF86D2F223}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.PosClient", "FCanteen.PosClient\FCanteen.PosClient.csproj", "{92904C40-B540-4E84-9F9C-75363B00FBEF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,18 @@ Global
 		{25EBD20E-CF7D-402F-88A0-53EF86D2F223}.Release|x64.Build.0 = Release|Any CPU
 		{25EBD20E-CF7D-402F-88A0-53EF86D2F223}.Release|x86.ActiveCfg = Release|Any CPU
 		{25EBD20E-CF7D-402F-88A0-53EF86D2F223}.Release|x86.Build.0 = Release|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Debug|x64.Build.0 = Debug|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Debug|x86.Build.0 = Debug|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x64.ActiveCfg = Release|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x64.Build.0 = Release|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x86.ActiveCfg = Release|Any CPU
+		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
