@@ -28,3 +28,8 @@ public class OrderConfirmation
     public decimal TotalAmount { get; set; }
     public string Message { get; set; } = "";
 }
+public class RemoteMenuItem
+{
+    public string Code { get; set; } = "";
+    public decimal Price { get; set; }
+}

@@ -14,7 +14,7 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 var connectionString = configuration.GetConnectionString("FCanteenConnection");
-
+const string MenuSyncUrl = "https://raw.githubusercontent.com/tlutlu181105/PRN-222-LAB/refs/heads/lab01/menu-sync.json";
 FCanteenContext CreateContext()
 {
     var optionsBuilder = new DbContextOptionsBuilder<FCanteenContext>();
@@ -32,15 +32,21 @@ _ = Task.Run(async () =>
     while (true)
     {
         Console.WriteLine();
-        Console.WriteLine("Gõ mã món (ví dụ CM01) để đánh dấu HẾT HÀNG, hoặc Enter để bỏ qua:");
-        string? code = Console.ReadLine();
-        if (string.IsNullOrWhiteSpace(code)) continue;
+        Console.WriteLine("Gõ mã món để đánh dấu HẾT HÀNG, gõ SYNC để đồng bộ giá, hoặc Enter để bỏ qua:");
+        string? input = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(input)) continue;
+
+        if (input.Trim().Equals("SYNC", StringComparison.OrdinalIgnoreCase))
+        {
+            await SyncMenuPricesAsync();
+            continue;
+        }
 
         using var db = CreateContext();
-        var item = await db.MenuItems.FirstOrDefaultAsync(m => m.Code == code.Trim());
+        var item = await db.MenuItems.FirstOrDefaultAsync(m => m.Code == input.Trim());
         if (item == null)
         {
-            Console.WriteLine($"Không tìm thấy món có mã '{code}'.");
+            Console.WriteLine($"Không tìm thấy món có mã '{input}'.");
             continue;
         }
 
@@ -185,4 +191,89 @@ async Task BroadcastSoldOutAsync(int menuItemId, string menuItemName)
     await LogAsync("UDP", "255.255.255.255:9600", $"Broadcast hết món: {menuItemName}");
 
     Console.WriteLine($"Đã phát UDP: {message}");
+}
+
+async Task SyncMenuPricesAsync()
+{
+    Console.WriteLine($"Bắt đầu đồng bộ giá từ: {MenuSyncUrl}");
+
+    // Yêu cầu đề bài: dùng Uri để phân tích địa chỉ
+    var uri = new Uri(MenuSyncUrl);
+    Console.WriteLine($"  Scheme: {uri.Scheme}");
+    Console.WriteLine($"  Host:   {uri.Host}");
+    Console.WriteLine($"  Port:   {uri.Port}");
+
+    // Yêu cầu đề bài: dùng Dns để phân giải tên miền
+    try
+    {
+        var addresses = await Dns.GetHostAddressesAsync(uri.Host);
+        Console.WriteLine("  Địa chỉ IP phân giải được:");
+        foreach (var ip in addresses)
+            Console.WriteLine($"    - {ip}");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"  Không phân giải được DNS: {ex.Message}");
+    }
+
+    using var http = new HttpClient();
+    var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+    HttpResponseMessage response;
+
+    try
+    {
+        response = await http.GetAsync(uri);
+    }
+    catch (Exception ex)
+    {
+        stopwatch.Stop();
+        Console.WriteLine($"Lỗi khi gọi HTTP: {ex.Message}");
+        await LogAsync("HTTP", uri.Host, $"Lỗi kết nối: {ex.Message}, Thời gian: {stopwatch.ElapsedMilliseconds}ms");
+        return;
+    }
+
+    stopwatch.Stop();
+    string statusInfo = $"Status: {(int)response.StatusCode} {response.StatusCode}, Thời gian: {stopwatch.ElapsedMilliseconds}ms";
+    Console.WriteLine(statusInfo);
+
+    await LogAsync("HTTP", uri.Host, statusInfo);
+
+    if (!response.IsSuccessStatusCode)
+    {
+        Console.WriteLine("Đồng bộ thất bại do lỗi HTTP.");
+        return;
+    }
+
+    var json = await response.Content.ReadAsStringAsync();
+    var jsonOptions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+    var remoteItems = JsonSerializer.Deserialize<List<RemoteMenuItem>>(json, jsonOptions);
+
+    if (remoteItems == null || remoteItems.Count == 0)
+    {
+        Console.WriteLine("File JSON rỗng hoặc không đọc được.");
+        return;
+    }
+
+    using var db = CreateContext();
+    int updatedCount = 0;
+
+    foreach (var remote in remoteItems)
+    {
+        var local = await db.MenuItems.FirstOrDefaultAsync(m => m.Code == remote.Code);
+        if (local == null)
+        {
+            Console.WriteLine($"  Không tìm thấy món có mã '{remote.Code}' trong DB, bỏ qua.");
+            continue;
+        }
+
+        if (local.Price != remote.Price)
+        {
+            Console.WriteLine($"  Cập nhật giá '{local.Name}': {local.Price:N0}đ -> {remote.Price:N0}đ");
+            local.Price = remote.Price;
+            updatedCount++;
+        }
+    }
+
+    await db.SaveChangesAsync();
+    Console.WriteLine($"Đồng bộ hoàn tất. Đã cập nhật {updatedCount} món.");
 }
