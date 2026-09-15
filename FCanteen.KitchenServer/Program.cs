@@ -27,6 +27,31 @@ listener.Start();
 Console.WriteLine("=== FCanteen Kitchen Server ===");
 Console.WriteLine("Đang lắng nghe cổng 9500...");
 
+_ = Task.Run(async () =>
+{
+    while (true)
+    {
+        Console.WriteLine();
+        Console.WriteLine("Gõ mã món (ví dụ CM01) để đánh dấu HẾT HÀNG, hoặc Enter để bỏ qua:");
+        string? code = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(code)) continue;
+
+        using var db = CreateContext();
+        var item = await db.MenuItems.FirstOrDefaultAsync(m => m.Code == code.Trim());
+        if (item == null)
+        {
+            Console.WriteLine($"Không tìm thấy món có mã '{code}'.");
+            continue;
+        }
+
+        item.IsAvailable = false;
+        await db.SaveChangesAsync();
+        Console.WriteLine($"Đã đánh dấu '{item.Name}' hết hàng. Đang phát UDP thông báo...");
+
+        await BroadcastSoldOutAsync(item.Id, item.Name);
+    }
+});
+
 while (true)
 {
     TcpClient client = await listener.AcceptTcpClientAsync();
@@ -147,4 +172,17 @@ async Task PrintPendingTicketsAsync(FCanteenContext db)
     foreach (var t in pending)
         Console.WriteLine($"  #{t.Id} - {t.CounterName} - {t.TotalAmount:N0}đ - {t.CreatedAt:HH:mm:ss}");
     Console.WriteLine("--------------------------------------------");
+}
+async Task BroadcastSoldOutAsync(int menuItemId, string menuItemName)
+{
+    using var udpClient = new UdpClient();
+    udpClient.EnableBroadcast = true;
+
+    string message = $"SOLD_OUT:{menuItemId}:{menuItemName}";
+    byte[] data = Encoding.UTF8.GetBytes(message);
+
+    await udpClient.SendAsync(data, data.Length, new IPEndPoint(IPAddress.Broadcast, 9600));
+    await LogAsync("UDP", "255.255.255.255:9600", $"Broadcast hết món: {menuItemName}");
+
+    Console.WriteLine($"Đã phát UDP: {message}");
 }

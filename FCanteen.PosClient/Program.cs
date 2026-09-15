@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
@@ -27,9 +28,56 @@ Console.WriteLine("=== FCanteen POS Client ===");
 Console.WriteLine($"Quầy: {counterName}");
 Console.WriteLine();
 
+Console.WriteLine("=== FCanteen POS Client ===");
+Console.WriteLine($"Quầy: {counterName}");
+Console.WriteLine();
+
+// Danh sách Id món đã bị đánh dấu hết hàng (dùng chung giữa các thread)
+var soldOutIds = new HashSet<int>();
+var soldOutLock = new object();
+
+// Task riêng: lắng nghe UDP song song, chạy suốt vòng đời chương trình
+_ = Task.Run(async () =>
+{
+using var udpListener = new UdpClient(9600);
 while (true)
 {
-    // Bước 2: Đọc thực đơn từ DB
+try
+{
+var result = await udpListener.ReceiveAsync();
+string message = Encoding.UTF8.GetString(result.Buffer);
+
+if (message.StartsWith("SOLD_OUT:"))
+{
+var parts = message.Split(':');
+int itemId = int.Parse(parts[1]);
+string itemName = parts.Length > 2 ? parts[2] : "";
+
+lock (soldOutLock)
+{
+soldOutIds.Add(itemId);
+}
+
+Console.WriteLine();
+Console.WriteLine($"*** THÔNG BÁO: Món '{itemName}' vừa HẾT HÀNG ***");
+}
+}
+catch (Exception ex)
+{
+Console.WriteLine($"Lỗi UDP: {ex.Message}");
+}
+}
+});
+
+    while (true)
+{
+    List<int> excludeIds;
+    lock (soldOutLock)
+    {
+        excludeIds = soldOutIds.ToList();
+    }
+
+    // Bước 2: Lấy danh sách món từ database, loại bỏ các món đã hết hàng
     List<(int Id, string Name, decimal Price, string Unit)> menu;
     using (var db = CreateContext())
     {
