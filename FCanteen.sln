@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.DataSeeder", "FCan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.Analytics", "FCanteen.Analytics\FCanteen.Analytics.csproj", "{305C44F3-DA86-4C93-9B53-D2604F49941F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.PlinqReports", "FCanteen.PlinqReports\FCanteen.PlinqReports.csproj", "{666788DC-7773-479D-801E-0DFE7E6C14A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{305C44F3-DA86-4C93-9B53-D2604F49941F}.Release|x64.Build.0 = Release|Any CPU
 		{305C44F3-DA86-4C93-9B53-D2604F49941F}.Release|x86.ActiveCfg = Release|Any CPU
 		{305C44F3-DA86-4C93-9B53-D2604F49941F}.Release|x86.Build.0 = Release|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Debug|x64.Build.0 = Debug|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Debug|x86.Build.0 = Debug|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Release|x64.Build.0 = Release|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Release|x86.ActiveCfg = Release|Any CPU
+		{666788DC-7773-479D-801E-0DFE7E6C14A0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
