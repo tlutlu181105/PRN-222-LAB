@@ -4,6 +4,7 @@ using FCanteen.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCanteen.Data.Migrations
 {
     [DbContext(typeof(FCanteenContext))]
-    partial class FCanteenContextModelSnapshot : ModelSnapshot
+    [Migration("20260917035448_AddIngredientAndSettlementAndBranchCode")]
+    partial class AddIngredientAndSettlementAndBranchCode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -104,88 +107,6 @@ namespace FCanteen.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ingredients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Gạo",
-                            StockQuantity = 200m,
-                            Unit = "kg",
-                            WarningThreshold = 20m
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Thịt gà",
-                            StockQuantity = 100m,
-                            Unit = "kg",
-                            WarningThreshold = 15m
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Thịt heo",
-                            StockQuantity = 100m,
-                            Unit = "kg",
-                            WarningThreshold = 15m
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Thịt bò",
-                            StockQuantity = 80m,
-                            Unit = "kg",
-                            WarningThreshold = 10m
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Rau các loại",
-                            StockQuantity = 150m,
-                            Unit = "kg",
-                            WarningThreshold = 20m
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Name = "Trứng gà",
-                            StockQuantity = 500m,
-                            Unit = "quả",
-                            WarningThreshold = 50m
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Name = "Dầu ăn",
-                            StockQuantity = 50m,
-                            Unit = "lít",
-                            WarningThreshold = 5m
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Name = "Nước mắm",
-                            StockQuantity = 30m,
-                            Unit = "lít",
-                            WarningThreshold = 5m
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Name = "Đường",
-                            StockQuantity = 40m,
-                            Unit = "kg",
-                            WarningThreshold = 5m
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Name = "Bún/Mì/Phở khô",
-                            StockQuantity = 100m,
-                            Unit = "kg",
-                            WarningThreshold = 15m
-                        });
                 });
 
             modelBuilder.Entity("FCanteen.Data.Entities.MenuItem", b =>

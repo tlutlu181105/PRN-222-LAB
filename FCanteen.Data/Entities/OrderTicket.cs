@@ -9,11 +9,11 @@ namespace FCanteen.Data.Entities;
 public class OrderTicket
 {
     public int Id { get; set; }
-    public string CounterName { get; set; } = "";     // tên quầy gửi, ví dụ "QUAY01"
-    public decimal TotalAmount { get; set; }            // tổng tiền — do SERVER tính, không nhận từ client
-    public DateTime CreatedAt { get; set; }              // thời điểm tạo phiếu
-    public string Status { get; set; } = "Pending";       // "Pending", "Cooking", "Done"...
+    public string CounterName { get; set; } = "";     
+    public decimal TotalAmount { get; set; }            
+    public DateTime CreatedAt { get; set; }              
+    public string Status { get; set; } = "Pending";
 
-    // 1 phiếu có nhiều dòng món
+    public string BranchCode { get; set; } = "";
     public ICollection<TicketLine> TicketLines { get; set; } = new List<TicketLine>();
 }

@@ -18,7 +18,7 @@ public class TicketLine
     public int MenuItemId { get; set; }
     public MenuItem MenuItem { get; set; } = null!;
 
-    public int Quantity { get; set; }                  // số lượng
-    public decimal UnitPrice { get; set; }               // GIÁ TẠI THỜI ĐIỂM BÁN — snapshot, không đọc lại từ MenuItem
-    public string? Note { get; set; }                     // ghi chú của khách, ví dụ "không hành"
+    public int Quantity { get; set; }                  
+    public decimal UnitPrice { get; set; }               
+    public string? Note { get; set; }                     
 }

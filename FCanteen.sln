@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.KitchenServer", "F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.PosClient", "FCanteen.PosClient\FCanteen.PosClient.csproj", "{92904C40-B540-4E84-9F9C-75363B00FBEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.DataSeeder", "FCanteen.DataSeeder\FCanteen.DataSeeder.csproj", "{17E65C19-7988-471B-9109-30E312EE6C00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x64.Build.0 = Release|Any CPU
 		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x86.ActiveCfg = Release|Any CPU
 		{92904C40-B540-4E84-9F9C-75363B00FBEF}.Release|x86.Build.0 = Release|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Debug|x64.Build.0 = Debug|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Debug|x86.Build.0 = Debug|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Release|x64.ActiveCfg = Release|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Release|x64.Build.0 = Release|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Release|x86.ActiveCfg = Release|Any CPU
+		{17E65C19-7988-471B-9109-30E312EE6C00}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
