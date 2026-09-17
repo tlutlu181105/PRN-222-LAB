@@ -56,7 +56,7 @@ var top10Sequential = data
     .ToList();
 sw1a.Stop();
 
-// Phiên bản PLINQ — CẦN AsOrdered() vì đây là bảng xếp hạng, thứ tự Top 1-10 có ý nghĩa nghiệp vụ
+
 var sw1b = Stopwatch.StartNew();
 var top10Plinq = data
     .AsParallel()
@@ -84,15 +84,14 @@ var revenueByHourSequential = data
     .ToList();
 sw2a.Stop();
 
-// KHÔNG cần AsOrdered() — GroupBy theo giờ không quan tâm thứ tự xử lý của PLINQ,
-// vì sau đó ta tự OrderBy(Hour) lại bằng LINQ tuần tự (rẻ, chỉ 24 phần tử) để hiển thị
+
 var sw2b = Stopwatch.StartNew();
 var revenueByHourPlinq = data
     .AsParallel()
     .GroupBy(x => x.CreatedAt.Hour)
     .Select(g => new { Hour = g.Key, TotalRevenue = g.Sum(x => x.Revenue) })
     .ToList()
-    .OrderBy(x => x.Hour) // sắp xếp lại sau khi PLINQ xong, rẻ vì chỉ có tối đa 24 dòng
+    .OrderBy(x => x.Hour) 
     .ToList();
 sw2b.Stop();
 
@@ -120,8 +119,6 @@ var topBranchPerMonthSequential = data
     .ToList();
 sw3a.Stop();
 
-// KHÔNG cần AsOrdered() — mỗi tháng độc lập tính "cơ sở nào cao nhất", thứ tự xử lý các tháng
-// giữa các luồng không ảnh hưởng kết quả; sắp xếp lại theo tháng ở bước cuối (rẻ, chỉ 6 dòng)
 var sw3b = Stopwatch.StartNew();
 var topBranchPerMonthPlinq = data
     .AsParallel()
@@ -159,8 +156,6 @@ var lowRevenueSequential = data
     .ToList();
 sw4a.Stop();
 
-// KHÔNG cần AsOrdered() — đây là phép LỌC (Where), không phải bảng xếp hạng,
-// thứ tự các món "đề xuất loại bỏ" trong danh sách không mang ý nghĩa nghiệp vụ nào
 var sw4b = Stopwatch.StartNew();
 var lowRevenuePlinq = data
     .AsParallel()
