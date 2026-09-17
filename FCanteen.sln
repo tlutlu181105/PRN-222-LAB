@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.PlinqReports", "FC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.AsyncReports", "FCanteen.AsyncReports\FCanteen.AsyncReports.csproj", "{1B69B7C1-E5DF-476B-B69E-B49302F337AC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.RaceConditionDemo", "FCanteen.RaceConditionDemo\FCanteen.RaceConditionDemo.csproj", "{FB99C237-A410-46B3-A97C-62CFBF80DD01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,18 @@ Global
 		{1B69B7C1-E5DF-476B-B69E-B49302F337AC}.Release|x64.Build.0 = Release|Any CPU
 		{1B69B7C1-E5DF-476B-B69E-B49302F337AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{1B69B7C1-E5DF-476B-B69E-B49302F337AC}.Release|x86.Build.0 = Release|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Debug|x64.Build.0 = Debug|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Debug|x86.Build.0 = Debug|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Release|x64.Build.0 = Release|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB99C237-A410-46B3-A97C-62CFBF80DD01}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
