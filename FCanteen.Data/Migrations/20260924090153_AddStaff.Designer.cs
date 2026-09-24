@@ -4,6 +4,7 @@ using FCanteen.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FCanteen.Data.Migrations
 {
     [DbContext(typeof(FCanteenContext))]
-    partial class FCanteenContextModelSnapshot : ModelSnapshot
+    [Migration("20260924090153_AddStaff")]
+    partial class AddStaff
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -385,69 +388,6 @@ namespace FCanteen.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("OrderTickets");
-                });
-
-            modelBuilder.Entity("FCanteen.Data.Entities.Staff", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("BranchCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FullName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StaffCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Staffs");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BranchCode = "CS01",
-                            FullName = "Nguyễn Văn A",
-                            Role = "Teacher",
-                            StaffCode = "GV001"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BranchCode = "CS02",
-                            FullName = "Trần Thị B",
-                            Role = "Teacher",
-                            StaffCode = "GV002"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BranchCode = "CS01",
-                            FullName = "Lê Văn C",
-                            Role = "Staff",
-                            StaffCode = "NV001"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            BranchCode = "CS03",
-                            FullName = "Phạm Thị D",
-                            Role = "Staff",
-                            StaffCode = "NV002"
-                        });
                 });
 
             modelBuilder.Entity("FCanteen.Data.Entities.TicketLine", b =>

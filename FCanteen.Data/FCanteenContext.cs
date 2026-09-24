@@ -16,7 +16,9 @@ public class FCanteenContext : DbContext
     public DbSet<TicketLine> TicketLines => Set<TicketLine>();
     public DbSet<DeviceLog> DeviceLogs => Set<DeviceLog>();
     public DbSet<Ingredient> Ingredients => Set<Ingredient>();          
-    public DbSet<DailySettlement> DailySettlements => Set<DailySettlement>();  
+    public DbSet<DailySettlement> DailySettlements => Set<DailySettlement>();
+
+    public DbSet<Staff> Staffs => Set<Staff>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -50,6 +52,13 @@ public class FCanteenContext : DbContext
     new Ingredient { Id = 8, Name = "Nước mắm", Unit = "lít", StockQuantity = 30, WarningThreshold = 5 },
     new Ingredient { Id = 9, Name = "Đường", Unit = "kg", StockQuantity = 40, WarningThreshold = 5 },
     new Ingredient { Id = 10, Name = "Bún/Mì/Phở khô", Unit = "kg", StockQuantity = 100, WarningThreshold = 15 }
+);
+
+        modelBuilder.Entity<Staff>().HasData(
+    new Staff { Id = 1, StaffCode = "GV001", FullName = "Nguyễn Văn A", Role = "Teacher", BranchCode = "CS01" },
+    new Staff { Id = 2, StaffCode = "GV002", FullName = "Trần Thị B", Role = "Teacher", BranchCode = "CS02" },
+    new Staff { Id = 3, StaffCode = "NV001", FullName = "Lê Văn C", Role = "Staff", BranchCode = "CS01" },
+    new Staff { Id = 4, StaffCode = "NV002", FullName = "Phạm Thị D", Role = "Staff", BranchCode = "CS03" }
 );
     }
 
