@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FCanteen.Services.Discounts;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -22,6 +23,14 @@ builder.Services.AddScoped<IMenuItemRepository, MenuItemRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 
+//
+builder.Services.AddScoped<IDiscountLogRepository, DiscountLogRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+
+// Chính sách giảm giá: mỗi chính sách 1 dòng. Thêm chính sách mới = thêm 1 dòng ở đây.
+builder.Services.AddScoped<IDiscountPolicy, ComboDiscountPolicy>();
+builder.Services.AddScoped<IDiscountPolicy, StudentDiscountPolicy>();
+builder.Services.AddScoped<IDiscountPolicy, StaffDiscountPolicy>();
 // Đăng ký Service: interface -> implementation
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IReportService, ReportService>();
@@ -53,6 +62,33 @@ using (var scope = host.Services.CreateScope())
 
     Console.WriteLine();
     Console.WriteLine("Nguyên liệu sắp hết hàng:");
+
+    Console.WriteLine();
+    Console.WriteLine("=== TEST CHÍNH SÁCH GIẢM GIÁ ===");
+
+    var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
+    var teacher = await staffRepo.GetByCodeAsync("GV001");
+
+    // 1 món chính (Id 1) + 1 nước (Id 12) => đủ điều kiện combo
+    var lines = new List<OrderLineRequest>
+    {
+        new() { MenuItemId = 1, Quantity = 1 },
+        new() { MenuItemId = 12, Quantity = 1 }
+    };
+
+    void PrintResult(string title, OrderResult r)
+    {
+        Console.WriteLine($"--- {title} ---");
+        Console.WriteLine($"  Tạm tính: {r.Subtotal:N0}đ");
+        foreach (var d in r.Discounts)
+            Console.WriteLine($"  - {d.Description}: -{d.AmountOff:N0}đ");
+        Console.WriteLine($"  Thành tiền: {r.Ticket.TotalAmount:N0}đ (phiếu #{r.Ticket.Id})");
+    }
+
+    PrintResult("Khách thường", await orderService.CreateOrderAsync("QUAY01", "CS01", lines));
+    PrintResult("Sinh viên", await orderService.CreateOrderAsync("QUAY01", "CS01", lines, isStudent: true));
+    PrintResult("Giảng viên GV001", await orderService.CreateOrderAsync("QUAY01", "CS01", lines, staff: teacher));
+    PrintResult("Sinh viên + Giảng viên", await orderService.CreateOrderAsync("QUAY01", "CS01", lines, isStudent: true, staff: teacher));
     var lowStock = await inventoryService.GetLowStockIngredientsAsync();
     if (lowStock.Count == 0)
         Console.WriteLine("  (Không có nguyên liệu nào dưới ngưỡng cảnh báo)");
