@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FCanteen.Data.Entities;
-using FCanteen.Repositories.Interfaces;
-using FCanteen.Services.Interfaces;
-using FCanteen.Data.Entities;
+﻿using FCanteen.Data.Entities;
 using FCanteen.Repositories.Interfaces;
 using FCanteen.Services.Discounts;
 using FCanteen.Services.Interfaces;
+using FCanteen.Services.Notifications;
 
 namespace FCanteen.Services.Implementations;
 
@@ -19,17 +12,21 @@ public class OrderService : IOrderService
     private readonly IMenuItemRepository _menuItemRepository;
     private readonly IDiscountLogRepository _discountLogRepository;
     private readonly IEnumerable<IDiscountPolicy> _discountPolicies;
+    private readonly INotificationService _notificationService;
 
     public OrderService(
         IOrderRepository orderRepository,
         IMenuItemRepository menuItemRepository,
         IDiscountLogRepository discountLogRepository,
-        IEnumerable<IDiscountPolicy> discountPolicies)   // DI tự gom TẤT CẢ chính sách đã đăng ký
+        IEnumerable<IDiscountPolicy> discountPolicies,   // DI tự gom TẤT CẢ chính sách đã đăng ký
+        INotificationService notificationService)      
+
     {
         _orderRepository = orderRepository;
         _menuItemRepository = menuItemRepository;
         _discountLogRepository = discountLogRepository;
         _discountPolicies = discountPolicies;
+        _notificationService = notificationService;
     }
 
     public async Task<OrderResult> CreateOrderAsync(
@@ -99,7 +96,9 @@ public class OrderService : IOrderService
             });
             await _discountLogRepository.AddRangeAsync(logs);
         }
-
+        await _notificationService.SendAsync(
+    $"Phiếu mới #{ticket.Id}",
+    $"{counterName} ({branchCode}) - {ticket.TicketLines.Count} dòng món - thành tiền {ticket.TotalAmount:N0}đ");
         return new OrderResult { Ticket = ticket, Subtotal = subtotal, Discounts = applied };
     }
 }

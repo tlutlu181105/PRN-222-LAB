@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FCanteen.Services.Discounts;
+using FCanteen.Services.Notifications;
 
 var builder = Host.CreateApplicationBuilder(args);
 
@@ -35,6 +36,8 @@ builder.Services.AddScoped<IDiscountPolicy, StaffDiscountPolicy>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IReportService, ReportService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+//
+builder.Services.AddScoped<INotificationService, ConsoleNotificationService>();
 
 var host = builder.Build();
 
@@ -65,6 +68,13 @@ using (var scope = host.Services.CreateScope())
 
     Console.WriteLine();
     Console.WriteLine("=== TEST CHÍNH SÁCH GIẢM GIÁ ===");
+
+    Console.WriteLine();
+    Console.WriteLine("=== TEST KÊNH THÔNG BÁO ===");
+    await orderService.CreateOrderAsync("QUAY02", "CS02", new List<OrderLineRequest>
+    {
+        new() { MenuItemId = 3, Quantity = 2 }
+    });
 
     var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
     var teacher = await staffRepo.GetByCodeAsync("GV001");
