@@ -17,7 +17,7 @@ public class FCanteenContext : DbContext
     public DbSet<DeviceLog> DeviceLogs => Set<DeviceLog>();
     public DbSet<Ingredient> Ingredients => Set<Ingredient>();          
     public DbSet<DailySettlement> DailySettlements => Set<DailySettlement>();
-
+    public DbSet<DiscountPolicyLog> DiscountPolicyLogs => Set<DiscountPolicyLog>();
     public DbSet<Staff> Staffs => Set<Staff>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,6 +60,8 @@ public class FCanteenContext : DbContext
     new Staff { Id = 3, StaffCode = "NV001", FullName = "Lê Văn C", Role = "Staff", BranchCode = "CS01" },
     new Staff { Id = 4, StaffCode = "NV002", FullName = "Phạm Thị D", Role = "Staff", BranchCode = "CS03" }
 );
+
+        modelBuilder.Entity<DiscountPolicyLog>().Property(d => d.AmountOff).HasPrecision(18, 2);
     }
 
 }
