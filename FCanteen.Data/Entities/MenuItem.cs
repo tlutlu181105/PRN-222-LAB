@@ -13,8 +13,12 @@ public class MenuItem
     public string Name { get; set; } = "";          
     public decimal Price { get; set; }               
     public string Unit { get; set; } = "";            
-    public bool IsAvailable { get; set; } = true;      
+    public bool IsAvailable { get; set; } = true;
 
- 
+    public int? CategoryId { get; set; }
+    public Category? Category { get; set; }
+
+
     public ICollection<TicketLine> TicketLines { get; set; } = new List<TicketLine>();
+    public ICollection<MenuItemIngredient> MenuItemIngredients { get; set; } = new List<MenuItemIngredient>();  
 }

@@ -19,6 +19,9 @@ public class FCanteenContext : DbContext
     public DbSet<DailySettlement> DailySettlements => Set<DailySettlement>();
     public DbSet<DiscountPolicyLog> DiscountPolicyLogs => Set<DiscountPolicyLog>();
     public DbSet<Staff> Staffs => Set<Staff>();
+    public DbSet<Category> Categories => Set<Category>();
+    public DbSet<Supplier> Suppliers => Set<Supplier>();
+    public DbSet<MenuItemIngredient> MenuItemIngredients => Set<MenuItemIngredient>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -62,6 +65,15 @@ public class FCanteenContext : DbContext
 );
 
         modelBuilder.Entity<DiscountPolicyLog>().Property(d => d.AmountOff).HasPrecision(18, 2);
+
+        modelBuilder.Entity<Category>().HasData(
+    new Category { Id = 1, Name = "Món chính" },
+    new Category { Id = 2, Name = "Món phụ" },
+    new Category { Id = 3, Name = "Đồ uống" },
+    new Category { Id = 4, Name = "Tráng miệng" }
+);
+
+        modelBuilder.Entity<MenuItemIngredient>().Property(m => m.Quantity).HasPrecision(18, 3);
     }
 
 }
