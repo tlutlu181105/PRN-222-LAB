@@ -47,6 +47,8 @@ Console.WriteLine();
 // Lấy Service ra từ container để dùng thử — KHÔNG có dòng "new OrderService(...)" nào ở đây
 using (var scope = host.Services.CreateScope())
 {
+    Console.WriteLine();
+    Console.WriteLine("=== TEST KÊNH THÔNG BÁO ===");
     var orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
     var reportService = scope.ServiceProvider.GetRequiredService<IReportService>();
     var inventoryService = scope.ServiceProvider.GetRequiredService<IInventoryService>();
@@ -69,8 +71,7 @@ using (var scope = host.Services.CreateScope())
     Console.WriteLine();
     Console.WriteLine("=== TEST CHÍNH SÁCH GIẢM GIÁ ===");
 
-    Console.WriteLine();
-    Console.WriteLine("=== TEST KÊNH THÔNG BÁO ===");
+
     await orderService.CreateOrderAsync("QUAY02", "CS02", new List<OrderLineRequest>
     {
         new() { MenuItemId = 3, Quantity = 2 }
