@@ -12,5 +12,6 @@ public class Ingredient
     public string Name { get; set; } = "";        
     public string Unit { get; set; } = "";          
     public decimal StockQuantity { get; set; }        
-    public decimal WarningThreshold { get; set; }      
+    public decimal WarningThreshold { get; set; }
+    public decimal UnitCost { get; set; }   // đơn giá nhập, dùng để tính giá vốn món ăn
 }

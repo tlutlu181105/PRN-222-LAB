@@ -1,0 +1,19 @@
+﻿@model MenuItem
+
+<h1>Xác nhận xoá món</h1>
+
+<p>Bạn có chắc muốn xoá món này không?</p>
+
+<dl>
+    <dt>Mã món</dt>
+    <dd>@Model.Code</dd>
+    <dt>Tên món</dt>
+    <dd>@Model.Name</dd>
+    <dt>Giá bán</dt>
+    <dd>@Model.Price.ToString("N0")đ</dd>
+</dl>
+
+<form asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <button type="submit">Xác nhận xoá</button>
+    <a asp-action="Index">Huỷ</a>
+</form>

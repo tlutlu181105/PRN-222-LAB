@@ -23,6 +23,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 builder.Services.AddScoped<IDiscountLogRepository, DiscountLogRepository>();
 builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IMenuItemCostService, MenuItemCostService>();
 
 // Đăng ký Service
 builder.Services.AddScoped<IOrderService, OrderService>();

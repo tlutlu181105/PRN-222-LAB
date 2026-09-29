@@ -1,0 +1,57 @@
+﻿@model MenuItemViewModel
+
+<h1>Sửa món</h1>
+
+<form asp-action="Edit" asp-route-id="@Model.Id" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div asp-validation-summary="All" style="color:red;"></div>
+
+    <div>
+        <label asp-for="Code"></label>
+        <input asp-for="Code" />
+        <span asp-validation-for="Code" style="color:red;"></span>
+    </div>
+
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name" style="color:red;"></span>
+    </div>
+
+    <div>
+        <label asp-for="Price"></label>
+        <input asp-for="Price" />
+        <span asp-validation-for="Price" style="color:red;"></span>
+    </div>
+
+    <div>
+        <label asp-for="Unit"></label>
+        <input asp-for="Unit" />
+        <span asp-validation-for="Unit" style="color:red;"></span>
+    </div>
+
+    <div>
+        <label asp-for="CategoryId"></label>
+        <select asp-for="CategoryId">
+            <option value="">-- Chọn nhóm món --</option>
+            @foreach (var c in Model.CategoryOptions)
+            {
+                <option value="@c.Id">@c.Name</option>
+            }
+        </select>
+    </div>
+
+    <div>
+        <label asp-for="IsAvailable"></label>
+        <input asp-for="IsAvailable" type="checkbox" />
+    </div>
+
+    <button type="submit">Lưu</button>
+    <a asp-action="Index">Huỷ</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

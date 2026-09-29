@@ -1,0 +1,21 @@
+﻿@model MenuItem
+
+<h1>Chi tiết món</h1>
+
+<dl>
+    <dt>Mã món</dt>
+    <dd>@Model.Code</dd>
+    <dt>Tên món</dt>
+    <dd>@Model.Name</dd>
+    <dt>Nhóm món</dt>
+    <dd>@(Model.Category?.Name ?? "(chưa gán)")</dd>
+    <dt>Giá bán</dt>
+    <dd>@Model.Price.ToString("N0")đ</dd>
+    <dt>Đơn vị</dt>
+    <dd>@Model.Unit</dd>
+    <dt>Còn bán</dt>
+    <dd>@(Model.IsAvailable ? "Có" : "Không")</dd>
+</dl>
+
+<a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+<a asp-action="Index">Quay lại danh sách</a>

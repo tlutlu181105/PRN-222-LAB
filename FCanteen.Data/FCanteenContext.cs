@@ -22,6 +22,7 @@ public class FCanteenContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<MenuItemIngredient> MenuItemIngredients => Set<MenuItemIngredient>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -45,16 +46,16 @@ public class FCanteenContext : DbContext
         );
 
         modelBuilder.Entity<Ingredient>().HasData(
-    new Ingredient { Id = 1, Name = "Gạo", Unit = "kg", StockQuantity = 200, WarningThreshold = 20 },
-    new Ingredient { Id = 2, Name = "Thịt gà", Unit = "kg", StockQuantity = 100, WarningThreshold = 15 },
-    new Ingredient { Id = 3, Name = "Thịt heo", Unit = "kg", StockQuantity = 100, WarningThreshold = 15 },
-    new Ingredient { Id = 4, Name = "Thịt bò", Unit = "kg", StockQuantity = 80, WarningThreshold = 10 },
-    new Ingredient { Id = 5, Name = "Rau các loại", Unit = "kg", StockQuantity = 150, WarningThreshold = 20 },
-    new Ingredient { Id = 6, Name = "Trứng gà", Unit = "quả", StockQuantity = 500, WarningThreshold = 50 },
-    new Ingredient { Id = 7, Name = "Dầu ăn", Unit = "lít", StockQuantity = 50, WarningThreshold = 5 },
-    new Ingredient { Id = 8, Name = "Nước mắm", Unit = "lít", StockQuantity = 30, WarningThreshold = 5 },
-    new Ingredient { Id = 9, Name = "Đường", Unit = "kg", StockQuantity = 40, WarningThreshold = 5 },
-    new Ingredient { Id = 10, Name = "Bún/Mì/Phở khô", Unit = "kg", StockQuantity = 100, WarningThreshold = 15 }
+new Ingredient { Id = 1, Name = "Gạo", Unit = "kg", StockQuantity = 200, WarningThreshold = 20, UnitCost = 20000 },
+new Ingredient { Id = 2, Name = "Thịt gà", Unit = "kg", StockQuantity = 100, WarningThreshold = 15, UnitCost = 80000 },
+new Ingredient { Id = 3, Name = "Thịt heo", Unit = "kg", StockQuantity = 100, WarningThreshold = 15, UnitCost = 100000 },
+new Ingredient { Id = 4, Name = "Thịt bò", Unit = "kg", StockQuantity = 80, WarningThreshold = 10, UnitCost = 250000 },
+new Ingredient { Id = 5, Name = "Rau các loại", Unit = "kg", StockQuantity = 150, WarningThreshold = 20, UnitCost = 15000 },
+new Ingredient { Id = 6, Name = "Trứng gà", Unit = "quả", StockQuantity = 500, WarningThreshold = 50, UnitCost = 3000 },
+new Ingredient { Id = 7, Name = "Dầu ăn", Unit = "lít", StockQuantity = 50, WarningThreshold = 5, UnitCost = 40000 },
+new Ingredient { Id = 8, Name = "Nước mắm", Unit = "lít", StockQuantity = 30, WarningThreshold = 5, UnitCost = 35000 },
+new Ingredient { Id = 9, Name = "Đường", Unit = "kg", StockQuantity = 40, WarningThreshold = 5, UnitCost = 18000 },
+new Ingredient { Id = 10, Name = "Bún/Mì/Phở khô", Unit = "kg", StockQuantity = 100, WarningThreshold = 15, UnitCost = 25000 }
 );
 
         modelBuilder.Entity<Staff>().HasData(
@@ -74,6 +75,8 @@ public class FCanteenContext : DbContext
 );
 
         modelBuilder.Entity<MenuItemIngredient>().Property(m => m.Quantity).HasPrecision(18, 3);
+
+        modelBuilder.Entity<Ingredient>().Property(i => i.UnitCost).HasPrecision(18, 2);
     }
 
 }

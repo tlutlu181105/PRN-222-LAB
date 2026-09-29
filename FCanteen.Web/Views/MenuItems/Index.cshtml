@@ -1,0 +1,42 @@
+﻿@model List<MenuItem>
+
+<h1>Danh sách món ăn</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div style="color: green; font-weight: bold;">@TempData["SuccessMessage"]</div>
+}
+
+<p><a asp-action="Create">+ Thêm món mới</a></p>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Mã món</th>
+            <th>Tên món</th>
+            <th>Nhóm món</th>
+            <th>Giá bán</th>
+            <th>Đơn vị</th>
+            <th>Còn bán</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Code</td>
+                <td>@item.Name</td>
+                <td>@(item.Category?.Name ?? "(chưa gán)")</td>
+                <td>@item.Price.ToString("N0")đ</td>
+                <td>@item.Unit</td>
+                <td>@(item.IsAvailable ? "Có" : "Không")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Xem</a> |
+                    <a asp-action="Edit" asp-route-id="@item.Id">Sửa</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Xoá</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
