@@ -19,12 +19,50 @@ public class MenuItemsController : Controller
     }
 
     // GET: MenuItems
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchTerm, int? categoryId, bool? isAvailable, string sortBy = "name", string sortDir = "asc")
     {
-        var items = await _context.MenuItems
-            .Include(m => m.Category)
-            .OrderBy(m => m.Id)
-            .ToListAsync();
+        var query = _context.MenuItems.Include(m => m.Category).AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchTerm))
+        {
+            query = query.Where(m => m.Name.Contains(searchTerm) || m.Code.Contains(searchTerm));
+        }
+
+        // loc theo nhom mon 
+        if (categoryId.HasValue)
+        {
+            query = query.Where(m => m.CategoryId == categoryId.Value);
+        }
+
+     
+        if (isAvailable.HasValue)
+        {
+            query = query.Where(m => m.IsAvailable == isAvailable.Value);
+        }
+
+     
+        query = (sortBy, sortDir) switch
+        {
+            ("price", "desc") => query.OrderByDescending(m => m.Price),
+            ("price", "asc") => query.OrderBy(m => m.Price),
+            ("name", "desc") => query.OrderByDescending(m => m.Name),
+            _ => query.OrderBy(m => m.Name)
+        };
+
+        var items = await query.ToListAsync();
+        // Lưu lại các giá trị đang lọc/sắp xếp để View tự vẽ lại trạng thái UI (giữ nguyên khi chuyển trang)
+        ViewData["SearchTerm"] = searchTerm;
+        ViewData["CategoryId"] = categoryId;
+        ViewData["IsAvailable"] = isAvailable;
+        ViewData["SortBy"] = sortBy;
+        ViewData["SortDir"] = sortDir;
+
+        
+        // Danh sách Category (ViewBag là lớp bọc động (dynamic) quanh cùng 1 ViewData)
+        ViewBag.Categories = await _context.Categories.ToListAsync();
+
+        // dùng ở Create/Edit/Delete (TempData["SuccessMessage"]) hiển thị thông báo
+
         return View(items);
     }
 

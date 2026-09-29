@@ -1,5 +1,18 @@
 ﻿@model List<MenuItem>
 
+@{
+    var searchTerm = ViewData["SearchTerm"] as string;
+    var categoryId = ViewData["CategoryId"] as int?;
+    var isAvailable = ViewData["IsAvailable"] as bool?;
+    var sortBy = ViewData["SortBy"] as string ?? "name";
+    var sortDir = ViewData["SortDir"] as string ?? "asc";
+    var categories = ViewBag.Categories as List<Category> ?? new List<Category>();
+
+    // Đảo chiều sắp xếp khi bấm lại đúng cột đang sắp xếp
+    string NextDir(string column) => (sortBy == column && sortDir == "asc") ? "desc" : "asc";
+    string Arrow(string column) => sortBy == column ? (sortDir == "asc" ? "▲" : "▼") : "";
+}
+
 <h1>Danh sách món ăn</h1>
 
 @if (TempData["SuccessMessage"] != null)
@@ -9,13 +22,50 @@
 
 <p><a asp-action="Create">+ Thêm món mới</a></p>
 
+<!-- Form tìm kiếm + lọc: dùng method="get" để trạng thái nằm trên URL, dễ giữ khi chuyển trang / F5 -->
+<form method="get" asp-action="Index">
+    <input type="hidden" name="sortBy" value="@sortBy" />
+    <input type="hidden" name="sortDir" value="@sortDir" />
+
+    <input type="text" name="searchTerm" value="@searchTerm" placeholder="Tìm theo tên hoặc mã món..." />
+
+    <select name="categoryId">
+        <option value="">-- Tất cả nhóm món --</option>
+        @foreach (var c in categories)
+        {
+            <option value="@c.Id" selected="@(categoryId == c.Id)">@c.Name</option>
+        }
+    </select>
+
+    <select name="isAvailable">
+        <option value="">-- Tất cả trạng thái --</option>
+        <option value="true" selected="@(isAvailable == true)">Còn bán</option>
+        <option value="false" selected="@(isAvailable == false)">Ngừng bán</option>
+    </select>
+
+    <button type="submit">Lọc</button>
+    <a asp-action="Index">Xoá bộ lọc</a>
+</form>
+
 <table border="1" cellpadding="6">
     <thead>
         <tr>
             <th>Mã món</th>
-            <th>Tên món</th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-searchTerm="@searchTerm" asp-route-categoryId="@categoryId" asp-route-isAvailable="@isAvailable"
+                   asp-route-sortBy="name" asp-route-sortDir="@NextDir("name")">
+                    Tên món @Arrow("name")
+                </a>
+            </th>
             <th>Nhóm món</th>
-            <th>Giá bán</th>
+            <th>
+                <a asp-action="Index"
+                   asp-route-searchTerm="@searchTerm" asp-route-categoryId="@categoryId" asp-route-isAvailable="@isAvailable"
+                   asp-route-sortBy="price" asp-route-sortDir="@NextDir("price")">
+                    Giá bán @Arrow("price")
+                </a>
+            </th>
             <th>Đơn vị</th>
             <th>Còn bán</th>
             <th></th>
@@ -40,3 +90,5 @@
         }
     </tbody>
 </table>
+
+<p>Tổng số món: @Model.Count</p>
