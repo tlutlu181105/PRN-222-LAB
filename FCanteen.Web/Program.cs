@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using FCanteen.Data;
-using FCanteen.Repositories.Interfaces;
+﻿using FCanteen.Data;
 using FCanteen.Repositories.Implementations;
-using FCanteen.Services.Interfaces;
-using FCanteen.Services.Implementations;
+using FCanteen.Repositories.Interfaces;
 using FCanteen.Services.Discounts;
+using FCanteen.Services.Implementations;
+using FCanteen.Services.Interfaces;
 using FCanteen.Services.Notifications;
+using FCanteen.Web.Models.Cart;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,18 @@ builder.Services.AddScoped<IDiscountPolicy, StaffDiscountPolicy>();
 // Kênh thông báo
 builder.Services.AddScoped<INotificationService, ConsoleNotificationService>();
 
+//session
+builder.Services.AddDistributedMemoryCache(); // nơi Session thực sự lưu dữ liệu (bộ nhớ RAM của server)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session tự hết hạn nếu không hoạt động 30 phút
+    options.Cookie.HttpOnly = true;                  // cookie session không truy cập được từ JavaScript (bảo mật)
+});
+
+//dăng ký IHttpContextAccessor và CartService vào DI
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<CartService>();
+
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
@@ -50,6 +63,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseSession();          // MỚI — phải đặt ở đây
 app.UseAuthorization();
 
 app.MapControllerRoute(

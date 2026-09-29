@@ -1,0 +1,40 @@
+﻿@model List<FCanteen.Data.Entities.Ingredient>
+
+<h1>Danh sách nguyên liệu</h1>
+
+@if (TempData["CartMessage"] != null)
+{
+    <div style="color: green; font-weight: bold;">@TempData["CartMessage"]</div>
+}
+
+<p><a asp-controller="IngredientCart" asp-action="Index">Xem giỏ đặt hàng</a></p>
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Tên nguyên liệu</th>
+            <th>Đơn vị</th>
+            <th>Tồn kho</th>
+            <th>Ngưỡng cảnh báo</th>
+            <th>Thêm vào giỏ</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ing in Model)
+        {
+            <tr style="@(ing.StockQuantity <= ing.WarningThreshold ? "background-color:#ffe0e0;" : "")">
+                <td>@ing.Name</td>
+                <td>@ing.Unit</td>
+                <td>@ing.StockQuantity</td>
+                <td>@ing.WarningThreshold</td>
+                <td>
+                    <form asp-controller="Ingredients" asp-action="AddToCart" method="post" style="display:flex; gap:6px;">
+                        <input type="hidden" name="ingredientId" value="@ing.Id" />
+                        <input type="number" name="quantity" step="0.1" min="0.1" style="width:80px;" required />
+                        <button type="submit">Thêm</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

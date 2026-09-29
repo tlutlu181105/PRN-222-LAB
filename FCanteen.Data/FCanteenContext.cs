@@ -22,6 +22,8 @@ public class FCanteenContext : DbContext
     public DbSet<Category> Categories => Set<Category>();
     public DbSet<Supplier> Suppliers => Set<Supplier>();
     public DbSet<MenuItemIngredient> MenuItemIngredients => Set<MenuItemIngredient>();
+    public DbSet<PurchaseOrder> PurchaseOrders => Set<PurchaseOrder>();
+    public DbSet<PurchaseOrderLine> PurchaseOrderLines => Set<PurchaseOrderLine>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -77,6 +79,13 @@ new Ingredient { Id = 10, Name = "Bún/Mì/Phở khô", Unit = "kg", StockQuanti
         modelBuilder.Entity<MenuItemIngredient>().Property(m => m.Quantity).HasPrecision(18, 3);
 
         modelBuilder.Entity<Ingredient>().Property(i => i.UnitCost).HasPrecision(18, 2);
+
+        modelBuilder.Entity<PurchaseOrderLine>().Property(p => p.Quantity).HasPrecision(18, 3);
+
+        modelBuilder.Entity<Supplier>().HasData(
+            new Supplier { Id = 1, Name = "Công ty TNHH Thực phẩm Đà Nẵng", ContactPhone = "0905123456", Address = "123 Nguyễn Văn Linh, Đà Nẵng" },
+            new Supplier { Id = 2, Name = "Chợ đầu mối Hòa Cường", ContactPhone = "0905654321", Address = "45 Núi Thành, Đà Nẵng" }
+        );
     }
 
 }

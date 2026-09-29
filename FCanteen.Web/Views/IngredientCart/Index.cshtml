@@ -1,0 +1,65 @@
+﻿@model List<FCanteen.Web.Models.Cart.CartLine>
+@{
+    var suppliers = ViewBag.Suppliers as List<FCanteen.Data.Entities.Supplier> ?? new();
+}
+
+<h1>Giỏ đặt hàng nguyên liệu</h1>
+
+@if (TempData["CartMessage"] != null)
+{
+    <div style="color: green; font-weight: bold;">@TempData["CartMessage"]</div>
+}
+
+<p><a asp-controller="Ingredients" asp-action="Index">Tiếp tục chọn nguyên liệu</a></p>
+
+@if (Model.Count == 0)
+{
+    <p>Giỏ đặt hàng đang trống.</p>
+}
+else
+{
+    <table border="1" cellpadding="6">
+        <thead>
+            <tr>
+                <th>Nguyên liệu</th>
+                <th>Đơn vị</th>
+                <th>Số lượng</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model)
+            {
+                <tr>
+                    <td>@line.IngredientName</td>
+                    <td>@line.Unit</td>
+                    <td>
+                        <form asp-action="UpdateQuantity" method="post" style="display:flex; gap:6px;">
+                            <input type="hidden" name="ingredientId" value="@line.IngredientId" />
+                            <input type="number" name="quantity" step="0.1" min="0.1" value="@line.Quantity" style="width:80px;" />
+                            <button type="submit">Cập nhật</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="RemoveLine" method="post">
+                            <input type="hidden" name="ingredientId" value="@line.IngredientId" />
+                            <button type="submit">Xoá</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h3>Xác nhận đặt hàng</h3>
+    <form asp-action="Confirm" method="post">
+        <select name="supplierId" required>
+            <option value="">-- Chọn nhà cung cấp --</option>
+            @foreach (var s in suppliers)
+            {
+                <option value="@s.Id">@s.Name</option>
+            }
+        </select>
+        <button type="submit">Xác nhận đặt hàng</button>
+    </form>
+}
