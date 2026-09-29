@@ -1,0 +1,72 @@
+﻿@model ManageIngredientsViewModel
+
+<h1>Gán nguyên liệu cho món: @Model.MenuItemName</h1>
+
+@if (TempData["IngredientMessage"] != null)
+{
+    <div style="color: green; font-weight: bold;">@TempData["IngredientMessage"]</div>
+}
+
+<table border="1" cellpadding="6">
+    <thead>
+        <tr>
+            <th>Nguyên liệu</th>
+            <th>Định lượng</th>
+            <th>Đơn vị</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model.AssignedIngredients)
+        {
+            <tr>
+                <td>@row.IngredientName</td>
+                <td>@row.Quantity</td>
+                <td>@row.Unit</td>
+                <td>@row.UnitCost.ToString("N0")đ</td>
+                <td>@row.LineCost.ToString("N0")đ</td>
+                <td>
+                    <form asp-action="Remove" method="post">
+                        <input type="hidden" name="id" value="@row.Id" />
+                        <input type="hidden" name="menuItemId" value="@Model.MenuItemId" />
+                        <button type="submit">Xoá</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4"><strong>Tổng giá vốn</strong></td>
+            <td colspan="2"><strong>@Model.TotalCost.ToString("N0")đ</strong></td>
+        </tr>
+    </tfoot>
+</table>
+
+<p>
+    <strong>Giá bán hiện tại:</strong> @Model.MenuItemPrice.ToString("N0")đ |
+    <strong>Giá bán tối thiểu (vốn + 20%):</strong> @Model.MinimumPrice.ToString("N0")đ
+</p>
+
+@if (Model.TotalCost > 0 && Model.MenuItemPrice < Model.MinimumPrice)
+{
+    <p style="color:red;">Cảnh báo: giá bán hiện tại chưa đạt lợi nhuận tối thiểu 20%.</p>
+}
+
+<h3>Thêm / cập nhật nguyên liệu</h3>
+<form asp-action="Add" method="post">
+    <input type="hidden" name="menuItemId" value="@Model.MenuItemId" />
+    <select name="ingredientId" required>
+        <option value="">-- Chọn nguyên liệu --</option>
+        @foreach (var ing in Model.AllIngredients)
+        {
+            <option value="@ing.Id">@ing.Name</option>
+        }
+    </select>
+    <input type="number" name="quantity" step="0.01" min="0.01" placeholder="Định lượng" required />
+    <button type="submit">Thêm / Cập nhật</button>
+</form>
+
+<p><a asp-controller="MenuItems" asp-action="Index">Quay lại danh sách món</a></p>

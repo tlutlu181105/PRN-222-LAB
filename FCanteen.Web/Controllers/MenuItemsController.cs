@@ -66,7 +66,7 @@ public class MenuItemsController : Controller
         return View(items);
     }
 
-    // GET: MenuItems/Details/5
+    // GET: MenuItems/Details/
     public async Task<IActionResult> Details(int id)
     {
         var item = await _context.MenuItems
@@ -74,6 +74,8 @@ public class MenuItemsController : Controller
             .FirstOrDefaultAsync(m => m.Id == id);
 
         if (item == null) return NotFound();
+
+        ViewData["Cost"] = await _costService.GetCostAsync(id); //xem giá vốn 
         return View(item);
     }
 

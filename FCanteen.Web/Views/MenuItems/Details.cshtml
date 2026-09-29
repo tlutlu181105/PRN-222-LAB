@@ -15,6 +15,11 @@
     <dd>@Model.Unit</dd>
     <dt>Còn bán</dt>
     <dd>@(Model.IsAvailable ? "Có" : "Không")</dd>
+    <dt>Giá vốn (tính từ nguyên liệu)</dt>
+    <dd>@(((decimal)(ViewData["Cost"] ?? 0m)).ToString("N0"))đ</dd>
+
+    <dt>Nguyên liệu</dt>
+    <dd><a asp-controller="MenuItemIngredients" asp-action="Manage" asp-route-menuItemId="@Model.Id">Quản lý nguyên liệu</a></dd>
 </dl>
 
 <a asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
