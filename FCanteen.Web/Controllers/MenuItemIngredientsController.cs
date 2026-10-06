@@ -40,7 +40,7 @@ public class MenuItemIngredientsController : Controller
         var ingredientExists = await _context.Ingredients.AnyAsync(i => i.Id == ingredientId);
         if (!menuItemExists || !ingredientExists) return NotFound();
 
-        // Đã gán nguyên liệu này rồi thì cập nhật định lượng, không tạo dòng trùng
+        
         var existing = await _context.MenuItemIngredients
             .FirstOrDefaultAsync(m => m.MenuItemId == menuItemId && m.IngredientId == ingredientId);
 

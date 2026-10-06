@@ -34,7 +34,7 @@ public class CartService
 
         if (existing != null)
         {
-            existing.Quantity = quantity; // cập nhật số lượng nếu đã có trong giỏ
+            existing.Quantity = quantity; 
         }
         else
         {
