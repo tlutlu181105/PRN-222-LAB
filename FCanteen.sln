@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.ConsoleApp", "FCan
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.Web", "FCanteen.Web\FCanteen.Web.csproj", "{9695F062-915D-47BE-AE86-05B742F02D49}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FCanteen.Blazor", "FCanteen\FCanteen.Blazor.csproj", "{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -181,6 +183,18 @@ Global
 		{9695F062-915D-47BE-AE86-05B742F02D49}.Release|x64.Build.0 = Release|Any CPU
 		{9695F062-915D-47BE-AE86-05B742F02D49}.Release|x86.ActiveCfg = Release|Any CPU
 		{9695F062-915D-47BE-AE86-05B742F02D49}.Release|x86.Build.0 = Release|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Debug|x64.Build.0 = Debug|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Debug|x86.Build.0 = Debug|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Release|x64.ActiveCfg = Release|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Release|x64.Build.0 = Release|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Release|x86.ActiveCfg = Release|Any CPU
+		{AE2DD540-8EAB-452E-A0FD-64CB9DC6744A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
